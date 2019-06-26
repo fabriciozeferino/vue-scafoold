@@ -1,42 +1,66 @@
 <template>
   <div>
     <h1>Events for user {{ user.user.name }}</h1>
-    <EventCard v-for="event in event.events" :key="event.id" :event="event"/>
+    <EventCard v-for="event in event.events" :key="event.id" :event="event" />
     <template v-if="page != 1">
-      <router-link :to="{ name: 'event-list', query: { page: page - 1 } }" rel="prev">Prev Page</router-link>
-      <template v-if="hasNextPage">|</template>
+      <router-link
+        :to="{ name: 'event-list', query: { page: page - 1 } }"
+        rel="prev"
+        >Prev Page</router-link
+      >
+      <template v-if="hasNextPage"
+        >|</template
+      >
     </template>
     <router-link
       v-if="hasNextPage"
       :to="{ name: 'event-list', query: { page: page + 1 } }"
       rel="next"
-    >Next Page</router-link>
+      >Next Page</router-link
+    >
   </div>
 </template>
 
 <script>
 import EventCard from '@/components/EventCard.vue'
 import { mapState } from 'vuex'
+import store from '@/store/store'
 
+// Moved the current page & action call outside the component
+function getPageEvents(routeTo, next) {
+  const currentPage = parseInt(routeTo.query.page || 1)
+  store
+    .dispatch('event/fetchEvents', {
+      page: currentPage
+    })
+    .then(() => {
+      // pass it into the component as a prop, so we can print next pages
+      routeTo.params.page = currentPage
+      next()
+    })
+}
 export default {
+  props: {
+    page: {
+      // current page gets passed in as a prop
+      type: Number,
+      required: true
+    }
+  },
   components: {
     EventCard
   },
-  created() {
-    // Number of page to show on ListEvent
-    this.perPage = 3
-
-    this.$store.dispatch('event/fetchEvents', {
-      perPage: this.perPage,
-      page: this.page
-    })
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    // Before we enter the route
+    getPageEvents(routeTo, next)
+  },
+  beforeRouteUpdate(routeTo, routeFrom, next) {
+    // Before we update the route
+    getPageEvents(routeTo, next)
   },
   computed: {
-    page() {
-      return parseInt(this.$route.query.page) || 1
-    },
     hasNextPage() {
-      return this.event.eventsTotal > this.page * this.perPage
+      return this.event.eventsTotal > this.page * this.event.perPage
     },
     ...mapState(['event', 'user'])
   }
