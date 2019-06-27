@@ -1,5 +1,5 @@
 <template>
-  <div class="notification-bar" :class="notificationTypeClass">
+  <div class="notification-bar -shadow" :class="notificationTypeClass">
     <p>{{ notification.message }}</p>
   </div>
 </template>
@@ -36,6 +36,16 @@ export default {
 
 <style scoped>
 .notification-bar {
-  margin: 1em 0 1em;
+  padding: 0.15rem 1.25rem;
+  margin-bottom: 5px;
+  border-radius: 0.25rem;
+  transition: all 0.2s linear;
+  background-color: white;
+  cursor: pointer;
+}
+
+.notification-bar:hover {
+  transform: scale(1.01);
+  box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.2), 0 1px 15px 0 rgba(0, 0, 0, 0.19);
 }
 </style>
