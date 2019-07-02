@@ -1,7 +1,7 @@
 <template>
   <div>
     <label v-if="label">{{ label }}</label>
-    <input :value="value" v-bind="$attrs" @input="updateValue" />
+    <input :value="value" @input="updateValue" v-bind="$attrs" />
   </div>
 </template>
 
@@ -9,20 +9,16 @@
 export default {
   inheritAttrs: false,
   props: {
-    value: [String, Number],
-    label: { type: String, default: '' }
+    label: {
+      type: String,
+      default: ''
+    },
+    value: [String, Number]
   },
   methods: {
     updateValue(event) {
-      // <-- method triggered by input event
       this.$emit('input', event.target.value)
     }
   }
 }
 </script>
-
-<style>
-.field {
-  margin-bottom: 24px;
-}
-</style>

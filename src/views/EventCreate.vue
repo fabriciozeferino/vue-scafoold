@@ -10,28 +10,32 @@
 
       <h3>Name & describe your event</h3>
       <BaseInput
-        v-model="event.title"
         label="Title"
+        v-model="event.title"
         type="text"
-        placeholder="Add an event title"
+        placeholder="Title"
         class="field"
       />
+
       <BaseInput
-        v-model="event.description"
         label="Description"
+        v-model="event.description"
         type="text"
-        placeholder="Add a description"
+        placeholder="Description"
         class="field"
       />
+
       <h3>Where is your event?</h3>
       <BaseInput
-        v-model="event.location"
         label="Location"
+        v-model="event.location"
         type="text"
-        placeholder="Add a location"
+        placeholder="Location"
         class="field"
       />
+
       <h3>When is your event?</h3>
+
       <div class="field">
         <label>Date</label>
         <datepicker v-model="event.date" placeholder="Select a date" />
@@ -44,9 +48,7 @@
         class="field"
       />
 
-      <BaseButton type="submit" buttonClass="-fill-gradient" disabled
-        >Submit</BaseButton
-      >
+      <BaseButton type="submit" buttonClass="-fill-gradient">Submit</BaseButton>
     </form>
   </div>
 </template>
@@ -83,7 +85,7 @@ export default {
           this.event = this.createFreshEventObject()
         })
         .catch(() => {
-          NProgress.end()
+          NProgress.done()
         })
     },
     createFreshEventObject() {
@@ -106,5 +108,3 @@ export default {
   }
 }
 </script>
-
-<style scoped></style>

@@ -9,11 +9,13 @@
 </template>
 
 <script>
-import NotificationBar from './NotificationBar'
+import NotificationBar from '@/components/NotificationBar.vue'
 import { mapState } from 'vuex'
 
 export default {
-  components: { NotificationBar },
+  components: {
+    NotificationBar
+  },
   computed: mapState('notification', ['notifications'])
 }
 </script>
@@ -22,5 +24,7 @@ export default {
 .notification-container {
   position: fixed;
   bottom: 0;
-}</style
->®
+  right: 0;
+  padding-right: 40px;
+}
+</style>

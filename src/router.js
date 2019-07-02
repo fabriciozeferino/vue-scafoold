@@ -34,15 +34,12 @@ const router = new Router({
           .dispatch('event/fetchEvent', routeTo.params.id)
           .then(event => {
             routeTo.params.event = event
-
             next()
           })
           .catch(error => {
             if (error.response && error.response.status == 404) {
-              console.log(error)
               next({ name: '404', params: { resource: 'event' } })
             } else {
-              console.log(error)
               next({ name: 'network-issue' })
             }
           })
@@ -67,12 +64,11 @@ const router = new Router({
 })
 
 router.beforeEach((routeTo, routeFrom, next) => {
-  // Start the route progress bar.
   NProgress.start()
   next()
 })
+
 router.afterEach(() => {
-  // Complete the animation of the route progress bar.
   NProgress.done()
 })
 
